@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"right","Muse | Mist":320,"width":300,"display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="1.三种基本运算与(AND) Y &#x3D; A&amp;B &#x3D; A·B &#x3D; AB     A B Y    0 0 0   0 1 0   1 0 0   1 1 1    或(OR) Y &#x3D;  A | B  &#x3D; A + B     A B Y    0 0 0   0 1 1   1 0 1   1 1 1    非(NOT) Y &#x3D; A’">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数电—逻辑运算">
+<meta property="og:url" content="http://example.com/2022/04/26/DigitalCircuits01/index.html">
+<meta property="og:site_name" content="NEVER STOP EXPLORING">
+<meta property="og:description" content="1.三种基本运算与(AND) Y &#x3D; A&amp;B &#x3D; A·B &#x3D; AB     A B Y    0 0 0   0 1 0   1 0 0   1 1 1    或(OR) Y &#x3D;  A | B  &#x3D; A + B     A B Y    0 0 0   0 1 1   1 0 1   1 1 1    非(NOT) Y &#x3D; A’">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/04/26/TWiL5MoOYSGzQfd.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/04/26/r2ulxmYK9w43UGB.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/04/26/hmBWw3bStnuDTe8.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/04/26/Pc31IQ2q67k4spD.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/04/26/g5fMBTbz2jelnL9.jpg">
+<meta property="article:published_time" content="2022-04-26T13:59:02.575Z">
+<meta property="article:modified_time" content="2022-05-07T10:50:17.303Z">
+<meta property="article:author" content="DONALD1101">
+<meta property="article:tag" content="数电">
+<meta property="article:tag" content="逻辑代数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/26/TWiL5MoOYSGzQfd.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/04/26/DigitalCircuits01/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/04/26/DigitalCircuits01/","path":"2022/04/26/DigitalCircuits01/","title":"数电—逻辑运算"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数电—逻辑运算 | NEVER STOP EXPLORING</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">NEVER STOP EXPLORING</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>全部文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E4%B8%89%E7%A7%8D%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97"><span class="nav-number">1.</span> <span class="nav-text">1.三种基本运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E-AND"><span class="nav-number">1.1.</span> <span class="nav-text">与(AND)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%96-OR"><span class="nav-number">1.2.</span> <span class="nav-text">或(OR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E-NOT"><span class="nav-number">1.3.</span> <span class="nav-text">非(NOT)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%B8%B8%E7%94%A8%E7%9A%84%E5%A4%8D%E5%90%88%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">2.常用的复合逻辑运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%88%96-XOR"><span class="nav-number">2.1.</span> <span class="nav-text">异或(XOR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%88%96-XNOR"><span class="nav-number">2.2.</span> <span class="nav-text">同或(XNOR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E4%BB%85%E7%94%A8-%E6%88%96%E9%9D%9E-x2F-%E4%B8%8E%E9%9D%9E-%E5%8D%95%E7%8B%AC%E5%AE%9E%E7%8E%B0-%E4%B8%8E-x2F-%E6%88%96-x2F-%E9%9D%9E"><span class="nav-number">2.3.</span> <span class="nav-text">可以仅用 或非&#x2F;与非 单独实现 与&#x2F;或&#x2F;非</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%9F%BA%E6%9C%AC%E5%85%AC%E5%BC%8F%E5%92%8C%E5%B8%B8%E7%94%A8%E5%85%AC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">3.基本公式和常用公式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%85%AC%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">基本公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%85%AC%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">常用公式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">4.基本定理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E9%80%BB%E8%BE%91%E5%87%BD%E6%95%B0%E7%9A%84%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">5.逻辑函数的描述方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E5%80%BC%E8%A1%A8-%E4%B8%80-gt-%E9%80%BB%E8%BE%91%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">真值表 一&gt; 逻辑式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%A0%87%E5%87%86%E5%BD%A2%E5%BC%8F"><span class="nav-number">5.2.</span> <span class="nav-text">逻辑函数的两种标准形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E9%A1%B9%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">5.3.</span> <span class="nav-text">最小项的性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E9%A1%B9%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">5.4.</span> <span class="nav-text">最大项的性质</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DONALD1101"
+      src="https://s2.loli.net/2022/04/25/EUvWc8imjyxhaKX.png">
+  <p class="site-author-name" itemprop="name">DONALD1101</p>
+  <div class="site-description" itemprop="description">JAVA,学习,笔记,生活,分享</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/donald1101" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;donald1101" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/26/DigitalCircuits01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://s2.loli.net/2022/04/25/EUvWc8imjyxhaKX.png">
+      <meta itemprop="name" content="DONALD1101">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NEVER STOP EXPLORING">
+      <meta itemprop="description" content="JAVA,学习,笔记,生活,分享">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数电—逻辑运算 | NEVER STOP EXPLORING">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数电—逻辑运算
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-26 21:59:02" itemprop="dateCreated datePublished" datetime="2022-04-26T21:59:02+08:00">2022-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-07 18:50:17" itemprop="dateModified" datetime="2022-05-07T18:50:17+08:00">2022-05-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/" itemprop="url" rel="index"><span itemprop="name">数字电路</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/%E9%80%BB%E8%BE%91%E4%BB%A3%E6%95%B0/" itemprop="url" rel="index"><span itemprop="name">逻辑代数</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-三种基本运算"><a href="#1-三种基本运算" class="headerlink" title="1.三种基本运算"></a>1.三种基本运算</h1><h2 id="与-AND"><a href="#与-AND" class="headerlink" title="与(AND)"></a>与(AND)</h2><blockquote>
+<p><strong>Y &#x3D; A&amp;B &#x3D; A·B &#x3D; AB</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">Y</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<p><img src="https://s2.loli.net/2022/04/26/TWiL5MoOYSGzQfd.jpg" alt="Snipaste_2022-04-26_17-59-46.jpg"></p>
+<h2 id="或-OR"><a href="#或-OR" class="headerlink" title="或(OR)"></a>或(OR)</h2><blockquote>
+<p><strong>Y &#x3D;  A | B  &#x3D; A + B</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">Y</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<p><img src="https://s2.loli.net/2022/04/26/r2ulxmYK9w43UGB.jpg" alt="Snipaste_2022-04-26_17-59-57.jpg"></p>
+<h2 id="非-NOT"><a href="#非-NOT" class="headerlink" title="非(NOT)"></a>非(NOT)</h2><blockquote>
+<p><strong>Y &#x3D; A’ &#x3D; NOT A</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">Y</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p><img src="https://s2.loli.net/2022/04/26/hmBWw3bStnuDTe8.jpg" alt="Snipaste_2022-04-26_18-00-06.jpg"></p>
+<h1 id="2-常用的复合逻辑运算"><a href="#2-常用的复合逻辑运算" class="headerlink" title="2.常用的复合逻辑运算"></a>2.常用的复合逻辑运算</h1><h2 id="异或-XOR"><a href="#异或-XOR" class="headerlink" title="异或(XOR)"></a>异或(XOR)</h2><table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">Y</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p><img src="https://s2.loli.net/2022/04/26/Pc31IQ2q67k4spD.jpg" alt="Snipaste_2022-04-26_18-06-28.jpg"></p>
+<h2 id="同或-XNOR"><a href="#同或-XNOR" class="headerlink" title="同或(XNOR)"></a>同或(XNOR)</h2><table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">Y</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<p><img src="https://s2.loli.net/2022/04/26/g5fMBTbz2jelnL9.jpg" alt="Snipaste_2022-04-26_18-06-39.jpg"></p>
+<h2 id="可以仅用-或非-x2F-与非-单独实现-与-x2F-或-x2F-非"><a href="#可以仅用-或非-x2F-与非-单独实现-与-x2F-或-x2F-非" class="headerlink" title="可以仅用 或非&#x2F;与非 单独实现 与&#x2F;或&#x2F;非"></a>可以仅用 或非&#x2F;与非 单独实现 与&#x2F;或&#x2F;非</h2><blockquote>
+<p><strong>A’ &#x3D; (A·A)’</strong></p>
+<p><strong>A·B &#x3D; ((AB)’)’</strong></p>
+<p><strong>A+B &#x3D; ((A+B)’)’ &#x3D; (A’B’)’</strong></p>
+</blockquote>
+<h1 id="3-基本公式和常用公式"><a href="#3-基本公式和常用公式" class="headerlink" title="3.基本公式和常用公式"></a>3.基本公式和常用公式</h1><h2 id="基本公式"><a href="#基本公式" class="headerlink" title="基本公式"></a>基本公式</h2><table>
+<thead>
+<tr>
+<th>AA &#x3D; A</th>
+<th>A+A &#x3D; A</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AA’ &#x3D; 0</td>
+<td>A+A’ &#x3D; 1</td>
+</tr>
+<tr>
+<td>AB &#x3D; BA</td>
+<td>A+B &#x3D; B+A</td>
+</tr>
+<tr>
+<td><strong>(AB)’ &#x3D; A’+B’</strong></td>
+<td><strong>(A+B)’ &#x3D; A’B’</strong></td>
+</tr>
+<tr>
+<td>A(B+C) &#x3D; AB+AC</td>
+<td><strong>A+BC &#x3D; (A+B)(A+C)</strong></td>
+</tr>
+</tbody></table>
+<h2 id="常用公式"><a href="#常用公式" class="headerlink" title="常用公式"></a>常用公式</h2><table>
+<thead>
+<tr>
+<th><strong>A B + A′ C + B C &#x3D; A B + A′ C</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A B＋ A′ C + B C D &#x3D; A B + A′ C</strong></td>
+</tr>
+</tbody></table>
+<h1 id="4-基本定理"><a href="#4-基本定理" class="headerlink" title="4.基本定理"></a>4.基本定理</h1><ul>
+<li><strong>代入定理</strong></li>
+<li><strong>反演定理</strong></li>
+</ul>
+<h1 id="5-逻辑函数的描述方法"><a href="#5-逻辑函数的描述方法" class="headerlink" title="5.逻辑函数的描述方法"></a>5.逻辑函数的描述方法</h1><ul>
+<li><strong>真值表</strong></li>
+<li><strong>逻辑式</strong></li>
+<li><strong>逻辑图</strong></li>
+<li><strong>波形图</strong></li>
+<li><strong>卡诺图</strong></li>
+</ul>
+<h2 id="真值表-一-gt-逻辑式"><a href="#真值表-一-gt-逻辑式" class="headerlink" title="真值表 一&gt; 逻辑式"></a>真值表 一&gt; 逻辑式</h2><table>
+<thead>
+<tr>
+<th align="center"><em>A</em></th>
+<th align="center"><em>B</em></th>
+<th align="center"><em>C</em></th>
+<th align="center"><em>Y</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><u><strong>1</strong></u></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><u><strong>1</strong></u></td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><u><strong>1</strong></u></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>A&#x3D;0,B&#x3D;1,C&#x3D;1使A‘BC&#x3D;1</strong></li>
+<li><strong>A&#x3D;1,B&#x3D;0,C&#x3D;1使AB’C&#x3D;1</strong></li>
+<li><strong>A&#x3D;1,B&#x3D;1,C&#x3D;0使ABC′ &#x3D;1</strong></li>
+</ul>
+<blockquote>
+<p><strong>Y &#x3D; A‘BC + AB‘C + ABC’</strong></p>
+</blockquote>
+<h2 id="逻辑函数的两种标准形式"><a href="#逻辑函数的两种标准形式" class="headerlink" title="逻辑函数的两种标准形式"></a>逻辑函数的两种标准形式</h2><ul>
+<li><strong>最小项之和</strong></li>
+<li><strong>最大项之积</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">最小项</th>
+<th align="center">取值</th>
+<th align="center">对应</th>
+<th align="center">编号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">A’B’C’</td>
+<td align="center">0 0 0</td>
+<td align="center">0</td>
+<td align="center"><em>m0</em></td>
+</tr>
+<tr>
+<td align="center">A’B’C</td>
+<td align="center">0 0 1</td>
+<td align="center">1</td>
+<td align="center"><em>m1</em></td>
+</tr>
+<tr>
+<td align="center">AB’C</td>
+<td align="center">0 1 0</td>
+<td align="center">2</td>
+<td align="center"><em>m2</em></td>
+</tr>
+<tr>
+<td align="center">A’BC</td>
+<td align="center">0 1 1</td>
+<td align="center">3</td>
+<td align="center"><em>m3</em></td>
+</tr>
+<tr>
+<td align="center">AB’C’</td>
+<td align="center">1 0 0</td>
+<td align="center">4</td>
+<td align="center"><em>m4</em></td>
+</tr>
+<tr>
+<td align="center">AB’C</td>
+<td align="center">1 0 1</td>
+<td align="center">5</td>
+<td align="center"><em>m5</em></td>
+</tr>
+<tr>
+<td align="center">ABC’</td>
+<td align="center">1 1 0</td>
+<td align="center">6</td>
+<td align="center"><em>m6</em></td>
+</tr>
+<tr>
+<td align="center">ABC</td>
+<td align="center">1 1 1</td>
+<td align="center">7</td>
+<td align="center"><em>m7</em></td>
+</tr>
+</tbody></table>
+<h2 id="最小项的性质"><a href="#最小项的性质" class="headerlink" title="最小项的性质"></a>最小项的性质</h2><blockquote>
+<ul>
+<li><strong>在输入变量任一取值下，有且仅有一个最小项的值为1。</strong></li>
+<li><strong>全体最小项之和为1 。</strong></li>
+<li><strong>任何两个最小项之积为0 。</strong></li>
+<li><strong>两个相邻的最小项之和可以合并，消去一对因子，只留下公共因子。</strong></li>
+<li><em><strong>相邻：仅一个变量不同的最小项</strong></em></li>
+</ul>
+</blockquote>
+<h2 id="最大项的性质"><a href="#最大项的性质" class="headerlink" title="最大项的性质"></a>最大项的性质</h2><blockquote>
+<ul>
+<li><strong>在输入变量任一取值下，有且仅有一个最大项的值为0；</strong></li>
+<li><strong>全体最大项之积为0；</strong></li>
+<li><strong>任何两个最大项之和为1；</strong></li>
+<li><strong>只有一个变量不同的最大项的乘积等于各相同变量之和。</strong></li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E7%94%B5/" rel="tag"># 数电</a>
+              <a href="/tags/%E9%80%BB%E8%BE%91%E4%BB%A3%E6%95%B0/" rel="tag"># 逻辑代数</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/04/25/JavaNote1/" rel="prev" title="Java基础01">
+                  <i class="fa fa-chevron-left"></i> Java基础01
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/04/30/DigitalCircuits02/" rel="next" title="数电—组合逻辑电路">
+                  数电—组合逻辑电路 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DONALD1101</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

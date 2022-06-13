@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"right","Muse | Mist":320,"width":300,"display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="1.概述存储电路的基本功能：存储各种数据和信息  寄存器  存储一组数据的电路  结构为一组具有公共时钟信号输入端的触发器    存储器  存储大量数据的电路  基本结构由存储矩阵和读&#x2F;写控制电路组成     2.触发器SR锁存器    Sd Rd Q Q’    0 0 0 0   0 0 1 1   1 0 0 1   1 0 1 1   0 1 0 0   0 1 1 0   电平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数电—存储电路">
+<meta property="og:url" content="http://example.com/2022/05/03/DigitalCircuits03/index.html">
+<meta property="og:site_name" content="NEVER STOP EXPLORING">
+<meta property="og:description" content="1.概述存储电路的基本功能：存储各种数据和信息  寄存器  存储一组数据的电路  结构为一组具有公共时钟信号输入端的触发器    存储器  存储大量数据的电路  基本结构由存储矩阵和读&#x2F;写控制电路组成     2.触发器SR锁存器    Sd Rd Q Q’    0 0 0 0   0 0 1 1   1 0 0 1   1 0 1 1   0 1 0 0   0 1 1 0   电平">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/05/03/eTZxjBnsMA7Yprq.png">
+<meta property="og:image" content="https://s2.loli.net/2022/05/04/zLAVIcDj5XqbFsK.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/05/04/9ZYqBoIGCS7pF2A.jpg">
+<meta property="article:published_time" content="2022-05-03T06:01:14.341Z">
+<meta property="article:modified_time" content="2022-05-10T02:23:03.858Z">
+<meta property="article:author" content="DONALD1101">
+<meta property="article:tag" content="数电">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/05/03/eTZxjBnsMA7Yprq.png">
+
+
+<link rel="canonical" href="http://example.com/2022/05/03/DigitalCircuits03/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/05/03/DigitalCircuits03/","path":"2022/05/03/DigitalCircuits03/","title":"数电—存储电路"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数电—存储电路 | NEVER STOP EXPLORING</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">NEVER STOP EXPLORING</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>全部文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">2.触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SR%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">SR锁存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E5%B9%B3%E8%A7%A6%E5%8F%91%E7%9A%84%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">电平触发的触发器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%89%E5%86%B2%E8%A7%A6%E5%8F%91%E7%9A%84%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">脉冲触发的触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8ESR%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.3.1.</span> <span class="nav-text">主从SR触发器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8EJK%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.3.2.</span> <span class="nav-text">主从JK触发器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%8A%9F%E8%83%BD%E5%8F%8A%E5%85%B6%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">逻辑功能及其描述方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SR%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.4.1.</span> <span class="nav-text">SR触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B%EF%BC%9A"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">特性方程：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JK%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.4.2.</span> <span class="nav-text">JK触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B%EF%BC%9A-1"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">特性方程：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#T%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.4.3.</span> <span class="nav-text">T触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B%EF%BC%9A-2"><span class="nav-number">2.4.3.1.</span> <span class="nav-text">特性方程：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.4.4.</span> <span class="nav-text">D触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B%EF%BC%9A-3"><span class="nav-number">2.4.4.1.</span> <span class="nav-text">特性方程：</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DONALD1101"
+      src="https://s2.loli.net/2022/04/25/EUvWc8imjyxhaKX.png">
+  <p class="site-author-name" itemprop="name">DONALD1101</p>
+  <div class="site-description" itemprop="description">JAVA,学习,笔记,生活,分享</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/donald1101" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;donald1101" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/03/DigitalCircuits03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://s2.loli.net/2022/04/25/EUvWc8imjyxhaKX.png">
+      <meta itemprop="name" content="DONALD1101">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NEVER STOP EXPLORING">
+      <meta itemprop="description" content="JAVA,学习,笔记,生活,分享">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数电—存储电路 | NEVER STOP EXPLORING">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数电—存储电路
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-03 14:01:14" itemprop="dateCreated datePublished" datetime="2022-05-03T14:01:14+08:00">2022-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-10 10:23:03" itemprop="dateModified" datetime="2022-05-10T10:23:03+08:00">2022-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/" itemprop="url" rel="index"><span itemprop="name">数字电路</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/%E5%AD%98%E5%82%A8%E7%94%B5%E8%B7%AF/" itemprop="url" rel="index"><span itemprop="name">存储电路</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h1><p><strong>存储电路的基本功能：存储各种数据和信息</strong></p>
+<ul>
+<li><p><strong>寄存器</strong></p>
+<ol>
+<li><p><strong>存储一组数据的电路</strong></p>
+</li>
+<li><p><strong>结构为一组具有公共时钟信号输入端的触发器</strong></p>
+</li>
+</ol>
+</li>
+<li><p><strong>存储器</strong></p>
+<ol>
+<li><p><strong>存储大量数据的电路</strong></p>
+</li>
+<li><p><strong>基本结构由存储矩阵和读&#x2F;写控制电路组成</strong></p>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="2-触发器"><a href="#2-触发器" class="headerlink" title="2.触发器"></a>2.触发器</h1><h2 id="SR锁存器"><a href="#SR锁存器" class="headerlink" title="SR锁存器"></a>SR锁存器</h2><p><img src="https://s2.loli.net/2022/05/03/eTZxjBnsMA7Yprq.png" alt="image-20220503181245423.png"></p>
+<table>
+<thead>
+<tr>
+<th align="center">Sd</th>
+<th align="center">Rd</th>
+<th align="center">Q</th>
+<th align="center">Q’</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<h2 id="电平触发的触发器"><a href="#电平触发的触发器" class="headerlink" title="电平触发的触发器"></a>电平触发的触发器</h2><blockquote>
+<p><strong>输入控制门+基本SR触发器</strong></p>
+<p>只有触发信号CLK到达，S和R才起作用。</p>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/05/04/zLAVIcDj5XqbFsK.jpg" alt="Snipaste_2022-05-04_10-53-13.jpg"></p>
+<h2 id="脉冲触发的触发器"><a href="#脉冲触发的触发器" class="headerlink" title="脉冲触发的触发器"></a>脉冲触发的触发器</h2><h3 id="主从SR触发器"><a href="#主从SR触发器" class="headerlink" title="主从SR触发器"></a><strong>主从SR触发器</strong></h3><blockquote>
+<ul>
+<li><strong>CLK &#x3D; 1时，主  按S，R翻转，从  保持</strong></li>
+<li><strong>CLK下降沿到达时，主  保持，从  根据主  的状态翻转</strong></li>
+</ul>
+<p><strong>注意：每个CLK周期，输出状态只可能改变一次。</strong></p>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/05/04/9ZYqBoIGCS7pF2A.jpg" alt="Snipaste_2022-05-04_11-06-28.jpg"></p>
+<h3 id="主从JK触发器"><a href="#主从JK触发器" class="headerlink" title="主从JK触发器"></a>主从JK触发器</h3><blockquote>
+<p><strong>为了解除约束，可以出现S&#x3D;R&#x3D;1的情况。</strong></p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Q&#x3D;0时，只允许J&#x3D;1的信号进入主触发器</li>
+<li>Q&#x3D;1时，只允许K&#x3D;1的信号进入主触发器</li>
+</ul>
+</blockquote>
+<p>***<u>主从JK在CLK高电平期间，主只可能翻转一次。</u>**</p>
+<h2 id="逻辑功能及其描述方法"><a href="#逻辑功能及其描述方法" class="headerlink" title="逻辑功能及其描述方法"></a>逻辑功能及其描述方法</h2><h3 id="SR触发器"><a href="#SR触发器" class="headerlink" title="SR触发器"></a>SR触发器</h3><h4 id="特性方程："><a href="#特性方程：" class="headerlink" title="特性方程："></a>特性方程：</h4><p><strong>𝑄∗ &#x3D; 𝑆′𝑅′𝑄 + 𝑆𝑅′𝑄′ + 𝑆𝑅′𝑄 &#x3D; 𝑆′𝑅′𝑄 + 𝑆𝑅′ &#x3D; 𝑆 + 𝑅′𝑄</strong></p>
+<p><strong>𝑆𝑅&#x3D;0</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">S</th>
+<th align="center">R</th>
+<th align="center">Q</th>
+<th align="center">Q*</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong>*</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong>*</td>
+</tr>
+</tbody></table>
+<h3 id="JK触发器"><a href="#JK触发器" class="headerlink" title="JK触发器"></a>JK触发器</h3><h4 id="特性方程：-1"><a href="#特性方程：-1" class="headerlink" title="特性方程："></a>特性方程：</h4><p><strong>𝑄∗ &#x3D; 𝐽𝑄′ + 𝐾′𝑄</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">J</th>
+<th align="center">K</th>
+<th align="center">Q</th>
+<th align="center">Q*</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+</tr>
+</tbody></table>
+<h3 id="T触发器"><a href="#T触发器" class="headerlink" title="T触发器"></a>T触发器</h3><blockquote>
+<p><strong>将JK触发器的输入端J、K连接在一起，作为输入端T，就构成了T触发器。</strong></p>
+<p><strong>即当T＝0时能保持状态不变，T＝1时一定翻转的电路，都称为T触发器。</strong></p>
+</blockquote>
+<h4 id="特性方程：-2"><a href="#特性方程：-2" class="headerlink" title="特性方程："></a>特性方程：</h4><p><strong>𝑄∗ &#x3D;  𝑇𝑄′ +  𝑇′𝑄</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">T</th>
+<th align="center">Q</th>
+<th align="center">Q*</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+<td align="center"><strong>1</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
+<td align="center"><strong>0</strong></td>
+</tr>
+</tbody></table>
+<h3 id="D触发器"><a href="#D触发器" class="headerlink" title="D触发器"></a>D触发器</h3><blockquote>
+<p><strong>D触发器可以用作寄存器和分频器。</strong></p>
+</blockquote>
+<h4 id="特性方程：-3"><a href="#特性方程：-3" class="headerlink" title="特性方程："></a>特性方程：</h4><p><strong>𝑄∗ &#x3D;  <em>D</em></strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E7%94%B5/" rel="tag"># 数电</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/04/30/DigitalCircuits02/" rel="prev" title="数电—组合逻辑电路">
+                  <i class="fa fa-chevron-left"></i> 数电—组合逻辑电路
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/04/DigitalCircuits04/" rel="next" title="数电—时序电路">
+                  数电—时序电路 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DONALD1101</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
